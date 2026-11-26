@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meher, will you be my best friend?</title>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFE3F1;--ink:#3A1346;--card:#fff;--muted:#7A5388;--yel:#FFD23F;--teal:#2EC4B6;--vio:#8E6BFF;--pink:#FF5FA2;--bt:#3A1346;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1F0B2B;--ink:#FFEAF6;--card:#341848;--muted:#C9A6DA;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1F0B2B;--ink:#FFEAF6;--card:#341848;--muted:#C9A6DA;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.05rem/1.55 "Nunito",system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+h1,h2,.btn,nav a{font-family:"Bagel Fat One","Nunito",system-ui,sans-serif;font-weight:400}
+h1{font-size:clamp(2.4rem,11.5vw,4.2rem);line-height:1;margin:.2em 0 .3em}
+h2{font-size:clamp(1.9rem,8vw,2.7rem);line-height:1.05;margin:.2em 0 .4em}
+p{max-width:34em}
+.wrap{max-width:640px;margin:0 auto;padding:14px 20px 56px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.logo{font:400 1.1rem "Bagel Fat One",sans-serif;background:var(--yel);color:var(--bt);padding:4px 14px;border-radius:10px;border:3px solid var(--bt);transform:rotate(-2deg)}
+#count{margin:0;color:var(--muted);font-weight:700;font-size:.9rem}
+.bar{height:10px;border-radius:99px;border:2px solid var(--ink);margin:10px 0;overflow:hidden}
+.bar i{display:block;height:100%;width:10%;background:linear-gradient(90deg,var(--pink),var(--yel),var(--teal));transition:width .4s}
+nav{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;text-decoration:none;color:var(--ink);padding:6px 14px;border-radius:12px;border:2px solid var(--ink);font-size:.95rem}
+nav a[aria-current="page"]{background:var(--teal);color:var(--bt);border-color:var(--bt)}
+.page[hidden]{display:none}
+.btn{display:inline-block;border:3px solid var(--bt);background:var(--yel);color:var(--bt);font-size:1.2rem;padding:10px 24px;border-radius:16px;box-shadow:4px 5px 0 var(--bt);cursor:pointer;text-decoration:none;touch-action:manipulation;transition:transform .12s,box-shadow .12s}
+.btn:active{transform:translate(3px,4px);box-shadow:1px 1px 0 var(--bt)}
+.btn.pink{background:var(--pink)}.btn.teal{background:var(--teal)}.btn.vio{background:var(--vio);color:#fff}
+.btn[aria-disabled="true"]{opacity:.45;pointer-events:none;box-shadow:none}
+.btn.go{animation:pulse 1.4s ease-in-out infinite}
+:focus-visible{outline:3px solid var(--vio);outline-offset:3px}
+.arena{position:relative;min-height:310px;margin:16px 0 6px;display:flex;flex-direction:column;align-items:center;padding-top:6px;touch-action:none}
+#yes{animation:pulse 1.8s ease-in-out infinite;transition:font-size .2s,padding .2s}
+#no{margin-top:30px}
+#no.free{position:absolute;margin:0;transition:left .15s,top .15s}
+@keyframes pulse{50%{transform:scale(1.05)}}
+.hint{min-height:1.6em;color:var(--muted);font-weight:700;margin:6px 0}
+.task{margin:22px 0 0;padding:12px 16px;border:3px dashed var(--ink);border-radius:16px;font-weight:700}
+.task.ok{border-style:solid;background:var(--teal);color:var(--bt);border-color:var(--bt)}
+.card{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:3px solid var(--ink);border-radius:18px;padding:14px 18px;margin:12px 0;box-shadow:4px 5px 0 var(--ink);font:700 1.05rem "Nunito",sans-serif}
+button.card{cursor:pointer}
+button.card[aria-pressed="true"]{background:var(--pink);color:var(--bt);border-color:var(--bt);box-shadow:4px 5px 0 var(--bt)}
+.tl{border-left:4px solid var(--ink);margin:18px 0 8px 10px;padding-left:20px}
+.tl div{position:relative;margin-bottom:20px}
+.tl div::before{content:"";position:absolute;left:-32px;top:5px;width:16px;height:16px;border-radius:50%;background:var(--pink);border:3px solid var(--ink)}
+.tl b{display:block}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.chip,.opt{font:700 1rem "Nunito",sans-serif;padding:13px 16px;border-radius:14px;border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer;text-align:left}
+.chip[aria-pressed="true"]{background:var(--yel);color:var(--bt);border-color:var(--bt);transform:rotate(-1.5deg)}
+.opts{display:grid;gap:10px;margin:12px 0}
+.opt:hover{background:var(--teal);color:var(--bt)}
+.terms label{display:flex;gap:14px;align-items:center;padding:14px 0;border-bottom:2px dashed var(--muted);font-weight:700;cursor:pointer}
+.terms input{width:26px;height:26px;accent-color:#FF5FA2;flex:none}
+.seq{display:flex;flex-wrap:wrap;gap:8px;min-height:56px;margin:14px 0;padding:10px;border:3px dashed var(--ink);border-radius:16px}
+.seq span{background:var(--pink);color:var(--bt);font-weight:700;padding:8px 12px;border-radius:12px}
+.paper{background:#FFFDF2;color:#3A1346;border:3px solid #3A1346;border-radius:8px;padding:18px 20px;margin:6px 0;line-height:1.65}
+.paper ul{padding-left:1.2em;margin:.4em 0}
+.paper li{margin:.45em 0}
+.thanks{font:400 1.6rem/1.15 "Bagel Fat One",sans-serif;color:#E0357F;text-align:center;margin:16px 0 4px}
+.env{width:100%;border:3px solid var(--bt);background:var(--vio);color:#fff;border-radius:16px;padding:34px 10px;font:400 1.5rem "Bagel Fat One",sans-serif;cursor:pointer;box-shadow:4px 5px 0 var(--bt)}
+[hidden]{display:none!important}
+.cert{background:#FFFDF2;color:#3A1346;border:4px double #3A1346;border-radius:12px;padding:26px 16px;text-align:center;margin:10px 0 18px}
+.cert .nm{font:400 1.9rem "Bagel Fat One",sans-serif;border-bottom:3px solid #FF5FA2;display:inline-block;padding:0 12px}
+.cert p{margin:.5em auto}
+.sig{display:flex;justify-content:space-around;gap:10px;margin-top:20px;font-size:.9rem}
+.sig span{border-top:2px solid #3A1346;padding-top:4px;min-width:42%}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:20px}
+#c{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:10}
+@media (prefers-reduced-motion:reduce){#yes,.btn.go{animation:none}*{transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="c" aria-hidden="true"></canvas>
+<div class="wrap">
+  <div class="top"><span class="logo">For Meher</span><p id="count"></p></div>
+  <div class="bar" aria-hidden="true"><i id="fill"></i></div>
+  <nav id="nav" aria-label="Unlocked pages"></nav>
+
+  <main>
+    <section class="page" id="home" data-label="Ask">
+      <p style="margin-bottom:0">Hey <b>Meher</b>,</p>
+      <h1>Will you be my best friend?</h1>
+      <p>Choose carefully. I made this just for you.</p>
+      <div class="arena" id="arena">
+        <button class="btn" id="yes">Yes!</button>
+        <button class="btn pink" id="no">No</button>
+      </div>
+      <p class="hint" id="hint" aria-live="polite"></p>
+      <p class="task">🎯 Task: tap the Yes button.</p>
+    </section>
+
+    <section class="page" id="why" data-label="Why you" hidden>
+      <h2>Why I picked you</h2>
+      <p>Tap the hearts on the reasons you like.</p>
+      <div id="reasons">
+        <button class="card" aria-pressed="false">You make ordinary days feel lighter.</button>
+        <button class="card" aria-pressed="false">Talking to you never feels like effort.</button>
+        <button class="card" aria-pressed="false">Your laugh is my favorite sound.</button>
+        <button class="card" aria-pressed="false">You’re kind to everyone, and I notice.</button>
+        <button class="card" aria-pressed="false">I want to be someone you can tell anything.</button>
+      </div>
+      <p class="task">🎯 Task: pick at least 3 reasons. <span class="prog"></span></p>
+    </section>
+
+    <section class="page" id="story" data-label="Story" hidden>
+      <h2>How this started</h2>
+      <div class="tl">
+        <div><b>It began with a hello</b>Simple, and I’m glad I said it.</div>
+        <div><b>Then talking got easy</b>No pressure, no pretending.</div>
+        <div><b>Then I started looking forward to you</b>Your messages became the best part of my day.</div>
+        <div><b>Now</b>I’m asking you to be my best friend.</div>
+      </div>
+      <p>Which mood fits us best?</p>
+      <div class="chips" id="moods">
+        <button class="chip">😂 Always laughing</button>
+        <button class="chip">🌙 Late-night talks</button>
+        <button class="chip">🍕 Snack adventures</button>
+        <button class="chip">🎶 Shared playlists</button>
+      </div>
+      <p class="task">🎯 Task: pick our mood.</p>
+    </section>
+
+    <section class="page" id="quiz" data-label="Quiz" hidden>
+      <h2>Quick friend quiz</h2>
+      <p class="hint" id="qStep"></p>
+      <h3 id="qText" style="font-size:1.35rem;margin:.2em 0"></h3>
+      <div class="opts" id="qOpts"></div>
+      <div id="qResult" hidden><div class="card" style="font-size:1.2rem">Compatibility: 100% 💯<span style="display:block;font-weight:400">There are no wrong answers with you.</span></div></div>
+      <p class="task">🎯 Task: answer all 3 questions. <span class="prog"></span></p>
+    </section>
+
+    <section class="page" id="terms" data-label="Rules" hidden>
+      <h2>Best friend rules</h2>
+      <p>These apply to both of us.</p>
+      <div class="terms" id="termsList">
+        <label><input type="checkbox"> Share snacks without being asked</label>
+        <label><input type="checkbox"> Answer memes within a reasonable time</label>
+        <label><input type="checkbox"> Say so when there’s spinach in each other’s teeth</label>
+        <label><input type="checkbox"> Cheer the loudest for each other</label>
+        <label><input type="checkbox"> Be weird together, no questions asked</label>
+      </div>
+      <p class="task">🎯 Task: tick all 5 rules. <span class="prog"></span></p>
+    </section>
+
+    <section class="page" id="plans" data-label="Plans" hidden>
+      <h2>What we’ll do first</h2>
+      <p>Tap what you’d love to do together.</p>
+      <div class="chips" id="chips">
+        <button class="chip" aria-pressed="false">🎬 Movie night</button>
+        <button class="chip" aria-pressed="false">🌙 Midnight snacks</button>
+        <button class="chip" aria-pressed="false">🚗 Road trip</button>
+        <button class="chip" aria-pressed="false">🎧 Shared playlist</button>
+        <button class="chip" aria-pressed="false">📸 Photo booth faces</button>
+        <button class="chip" aria-pressed="false">🍕 Pizza taste test</button>
+        <button class="chip" aria-pressed="false">🎮 Game tournament</button>
+        <button class="chip" aria-pressed="false">🏖️ Beach day</button>
+      </div>
+      <p class="task">🎯 Task: pick at least 3 plans. <span class="prog"></span></p>
+    </section>
+
+    <section class="page" id="shake" data-label="Handshake" hidden>
+      <h2>Our secret handshake</h2>
+      <p>Build it with four moves, in order.</p>
+      <div class="chips" id="moves"></div>
+      <div class="seq" id="seq" aria-live="polite"></div>
+      <button class="btn teal" id="resetShake">Start over</button>
+      <p class="task">🎯 Task: choose 4 moves. <span class="prog"></span></p>
+    </section>
+
+    <section class="page" id="promises" data-label="Promises" hidden>
+      <h2>My promises to you</h2>
+      <div class="paper">
+        <p style="margin-top:0">Meher, here’s what I promise as your best friend:</p>
+        <ul>
+          <li>I’ll always be honest with you, kindly.</li>
+          <li>I’ll listen when you need to talk, and stay quiet when you need that instead.</li>
+          <li>I’ll celebrate your wins like they’re mine.</li>
+          <li>I’ll be there on your bad days, not only the good ones.</li>
+          <li>I’ll keep your secrets safe.</li>
+          <li>I’ll make you laugh at least once a day. That’s a challenge I accept.</li>
+        </ul>
+        <div class="thanks">Thanks for being my new best friend 💛</div>
+        <p style="text-align:center;margin:.3em auto 0">With all my heart, <b>Raunak</b></p>
+      </div>
+      <button class="btn vio" id="seal">🖋️ Tap 3 times to sign</button>
+      <p class="task">🎯 Task: sign the promises. <span class="prog"></span></p>
+    </section>
+
+    <section class="page" id="letter" data-label="Letter" hidden>
+      <h2>One last letter</h2>
+      <button class="env" id="env">✉️ Tap to open</button>
+      <div class="paper" id="letterBody" hidden>
+        <p style="margin-top:0">Dear <b>Meher</b>,</p>
+        <p>Some people make a day brighter just by being in it. You’re one of those people.</p>
+        <p>Thank you for saying yes. I’m really happy to have you as my best friend, and I can’t wait for all the good days ahead.</p>
+        <p style="margin-bottom:0">Always yours,<br><b>Raunak</b></p>
+      </div>
+      <p class="task">🎯 Task: open the letter.</p>
+    </section>
+
+    <section class="page" id="pact" data-label="Pact" hidden>
+      <div class="cert">
+        <h2>Official Best Friend Pact</h2>
+        <p>This certifies that</p>
+        <div class="nm">Meher</div>
+        <p>and</p>
+        <div class="nm">Raunak</div>
+        <p>are best friends, starting <span id="today"></span>, snacks and jokes included.</p>
+        <div class="sig"><span>Meher</span><span>Raunak</span></div>
+      </div>
+      <button class="btn" id="stamp">🌟 Make it official</button>
+      <div class="row" id="finalRow" hidden>
+        <button class="btn pink" id="tell">💌 Tell Raunak</button>
+        <button class="btn teal" id="more">More confetti</button>
+      </div>
+      <p class="task">🎯 Task: tap “Make it official”.</p>
+    </section>
+  </main>
+
+  <div class="row"><a class="btn teal" id="next" href="#why" aria-disabled="true">Next</a></div>
+</div>
+
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)};
+var cv=$("#c"),cx=cv.getContext("2d"),W,H,P=[],run=false;
+var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+var cols=["#FFD23F","#FF5FA2","#2EC4B6","#8E6BFF","#FF8A3D","#7BE0FF"];
+function size(){var d=devicePixelRatio||1;W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0)}
+addEventListener("resize",size);size();
+function burst(x,y,n){
+  n=reduce?Math.min(n||90,16):(n||90);
+  for(var i=0;i<n;i++){var a=Math.random()*6.283,s=4+Math.random()*9;
+    P.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-6,w:6+Math.random()*7,h:4+Math.random()*6,r:Math.random()*6.28,vr:(Math.random()-.5)*.4,c:cols[i%cols.length],l:0,o:Math.random()<.25});}
+  if(!run){run=true;requestAnimationFrame(tick)}
+}
+function tick(){
+  cx.clearRect(0,0,W,H);
+  P=P.filter(function(p){return p.y<H+30&&p.l<260});
+  P.forEach(function(p){
+    p.vy+=.28;p.vx*=.985;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;p.l++;
+    cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillStyle=p.c;cx.globalAlpha=Math.min(1,(260-p.l)/60);
+    if(p.o){cx.beginPath();cx.arc(0,0,p.w/2,0,6.283);cx.fill()}else{cx.fillRect(-p.w/2,-p.h/2,p.w,p.h)}
+    cx.restore();
+  });
+  if(P.length){requestAnimationFrame(tick)}else{run=false;cx.clearRect(0,0,W,H)}
+}
+function party(){
+  burst(W/2,H*.4,120);
+  setTimeout(function(){burst(W*.2,H*.5,80)},250);
+  setTimeout(function(){burst(W*.8,H*.5,80)},500);
+}
+function pop(el){var r=el.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,18)}
+
+/* progress: only pages up to `reached` are visible */
+var pages=[].slice.call(document.querySelectorAll(".page")),N=pages.length;
+var nav=$("#nav"),nextBtn=$("#next"),cur=0,reached=0,final=false;
+try{
+  if(location.hash==="#reset"){localStorage.removeItem("mb_r");localStorage.removeItem("mb_f");history.replaceState(null,"","#home")}
+  reached=Math.min(N-1,parseInt(localStorage.getItem("mb_r")||"0",10)||0);
+  final=localStorage.getItem("mb_f")==="1";
+}catch(e){}
+function save(){try{localStorage.setItem("mb_r",reached);localStorage.setItem("mb_f",final?"1":"0")}catch(e){}}
+function buildNav(){
+  nav.innerHTML="";
+  pages.forEach(function(p,k){if(k>reached)return;var a=document.createElement("a");a.href="#"+p.id;a.textContent=p.dataset.label;
+    if(k===cur){a.setAttribute("aria-current","page")}nav.appendChild(a)});
+  var c=nav.querySelector("[aria-current]");if(c&&c.scrollIntoView)c.scrollIntoView({block:"nearest",inline:"center"});
+}
+function render(){
+  var pg=pages[cur];
+  pages.forEach(function(p,k){p.hidden=k!==cur});
+  $("#count").textContent="Page "+(cur+1)+" of "+N;
+  $("#fill").style.width=((reached+1)/N*100)+"%";
+  var done=cur<reached||(cur===N-1&&final);
+  var t=pg.querySelector(".task");if(t){t.classList.toggle("ok",done);if(done){t.textContent="✅ Task done!"+(cur<N-1?" Next page unlocked.":" Pact complete.")}}
+  if(cur<N-1){nextBtn.hidden=false;nextBtn.href="#"+pages[cur+1].id;nextBtn.textContent="Next: "+pages[cur+1].dataset.label;
+    nextBtn.setAttribute("aria-disabled",cur<reached?"false":"true");nextBtn.classList.toggle("go",cur<reached&&cur===reached-1)}
+  else{nextBtn.hidden=true}
+  if(cur===N-1&&final){$("#finalRow").hidden=false;$("#stamp").hidden=true}
+  buildNav();
+}
+function route(){
+  var id=(location.hash||"#home").slice(1),i=pages.map(function(p){return p.id}).indexOf(id);
+  if(i<0)i=0;if(i>reached)i=reached;
+  cur=i;render();window.scrollTo(0,0);
+}
+function complete(i){
+  if(i!==cur)return;
+  if(i===N-1){if(final)return;final=true;save();party();render();return}
+  if(i<reached)return;
+  reached=i+1;save();party();render();
+  nextBtn.scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"});
+}
+addEventListener("hashchange",route);route();
+$("#today").textContent=new Date().toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
+function prog(i,txt){var s=pages[i].querySelector(".prog");if(s)s.textContent=txt}
+
+/* page 1: Yes works, No always runs away */
+var yes=$("#yes"),no=$("#no"),arena=$("#arena"),hint=$("#hint"),n=0;
+var noText=["No","Are you sure?","Really sure?","Think again…","Pretty please?","I’ll share my fries","Too slow!","Nope, can’t catch me","Just press Yes 😄"];
+var hints=["Hmm, the button seems shy.","It moved again!","Yes is looking better and better…","This No button has a mind of its own."];
+function dodge(e){
+  if(e){e.preventDefault();e.stopPropagation()}
+  n++;
+  no.textContent=noText[n%noText.length];
+  hint.textContent=hints[n%hints.length];
+  no.classList.add("free");
+  var minY=yes.offsetHeight+18,maxX=Math.max(0,arena.clientWidth-no.offsetWidth),maxY=Math.max(minY,arena.clientHeight-no.offsetHeight);
+  no.style.left=Math.round(Math.random()*maxX)+"px";
+  no.style.top=Math.round(minY+Math.random()*(maxY-minY))+"px";
+  yes.style.fontSize=Math.min(2,1.2+n*.1)+"rem";
+  yes.style.padding=(10+Math.min(n,8)*2)+"px "+(24+Math.min(n,8)*3)+"px";
+  if(document.activeElement===no)no.blur();
+}
+["pointerenter","pointerdown","touchstart","mousedown","click","focus"].forEach(function(ev){no.addEventListener(ev,dodge,{passive:false})});
+yes.addEventListener("click",function(){
+  hint.textContent="Yay!! 🎉 You unlocked the next page.";
+  complete(0);
+});
+
+/* page 2 */
+var rs=[].slice.call(document.querySelectorAll("#reasons .card"));
+rs.forEach(function(b){b.addEventListener("click",function(){
+  var on=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",on);if(on)pop(b);
+  var k=rs.filter(function(x){return x.getAttribute("aria-pressed")==="true"}).length;
+  prog(1,k+" of 3");if(k>=3)complete(1);
+})});
+
+/* page 3 */
+[].forEach.call(document.querySelectorAll("#moods .chip"),function(c){c.addEventListener("click",function(){
+  [].forEach.call(document.querySelectorAll("#moods .chip"),function(x){x.setAttribute("aria-pressed","false")});
+  c.setAttribute("aria-pressed","true");pop(c);complete(2);
+})});
+
+/* page 4 quiz */
+var Q=[
+ {q:"Perfect hangout?",o:["Movie marathon","Spontaneous road trip","Snack crawl","Cozy talk and tea"]},
+ {q:"Our theme song would be…",o:["Upbeat pop","Dramatic ballad","Chaotic mix","Lo-fi chill"]},
+ {q:"How do we celebrate wins?",o:["Loud cheering","Fancy dinner","Dance break","Big hug"]}
+],qi=0;
+function showQ(){
+  var qo=$("#qOpts");qo.innerHTML="";
+  if(qi>=Q.length){$("#qStep").textContent="All done!";$("#qText").textContent="";$("#qResult").hidden=false;prog(3,"3 of 3");complete(3);return}
+  prog(3,qi+" of 3");
+  $("#qStep").textContent="Question "+(qi+1)+" of "+Q.length;
+  $("#qText").textContent=Q[qi].q;
+  Q[qi].o.forEach(function(t){var b=document.createElement("button");b.className="opt";b.textContent=t;
+    b.addEventListener("click",function(){qi++;showQ()});qo.appendChild(b)});
+}
+showQ();
+
+/* page 5 */
+var boxes=[].slice.call(document.querySelectorAll("#termsList input"));
+boxes.forEach(function(b){b.addEventListener("change",function(){
+  var k=boxes.filter(function(x){return x.checked}).length;prog(4,k+" of "+boxes.length);
+  if(k===boxes.length)complete(4);
+})});
+
+/* page 6 */
+var chips=[].slice.call(document.querySelectorAll("#chips .chip"));
+chips.forEach(function(c){c.addEventListener("click",function(){
+  var on=c.getAttribute("aria-pressed")!=="true";c.setAttribute("aria-pressed",on);if(on)pop(c);
+  var k=chips.filter(function(x){return x.getAttribute("aria-pressed")==="true"}).length;
+  prog(5,k+" of 3");if(k>=3)complete(5);
+})});
+
+/* page 7 handshake */
+var moves=["👊 Fist bump","🖐️ High five","🤞 Pinky","💥 Explode","🌀 Spin","🤝 Shake"],seq=[];
+function drawSeq(){$("#seq").innerHTML=seq.map(function(m,i){return "<span>"+(i+1)+". "+m+"</span>"}).join("")||"<em>Your handshake appears here</em>";prog(6,seq.length+" of 4")}
+moves.forEach(function(m){var b=document.createElement("button");b.className="chip";b.textContent=m;
+  b.addEventListener("click",function(){if(seq.length>=4)return;seq.push(m);drawSeq();if(seq.length===4)complete(6)});
+  $("#moves").appendChild(b)});
+$("#resetShake").addEventListener("click",function(){seq=[];drawSeq()});drawSeq();
+
+/* page 8 sign */
+var signs=0,seal=$("#seal");
+seal.addEventListener("click",function(){
+  signs++;pop(seal);prog(7,Math.min(signs,3)+" of 3");
+  if(signs>=3){seal.textContent="✅ Signed by Meher";complete(7)}else{seal.textContent="🖋️ Tap "+(3-signs)+" more"}
+});
+
+/* page 9 letter */
+$("#env").addEventListener("click",function(){$("#env").hidden=true;$("#letterBody").hidden=false;burst(W/2,H*.3,50);complete(8)});
+
+/* page 10 pact */
+$("#stamp").addEventListener("click",function(){complete(9)});
+$("#more").addEventListener("click",party);
+$("#tell").addEventListener("click",function(){
+  var msg="Yes, Raunak! We’re officially best friends 💛";
+  try{
+    if(navigator.share){navigator.share({text:msg}).catch(function(){})}
+    else{location.href="sms:?&body="+encodeURIComponent(msg)}
+  }catch(e){location.href="sms:?&body="+encodeURIComponent(msg)}
+});
+})();
+</script>
+</body>
+</html>
